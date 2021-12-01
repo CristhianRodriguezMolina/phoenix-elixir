@@ -1,0 +1,4 @@
+<div class="jumbotron">
+  <%# The <%= places the code executed in it, on the html %>
+  <h2>Hello World, from <%= @messenger %>!</h2>
+</div>
