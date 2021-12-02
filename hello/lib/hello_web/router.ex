@@ -29,6 +29,8 @@ defmodule HelloWeb.Router do
     pipe_through(:browser)
 
     get("/", PageController, :index)
+    get("/show", PageController, :show)
+
     # The :index atom points to the controller action `index`
     get("/hello", HelloController, :index)
 

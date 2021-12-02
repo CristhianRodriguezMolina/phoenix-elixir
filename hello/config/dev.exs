@@ -21,7 +21,7 @@ config :hello, HelloWeb.Endpoint,
   http: [ip: {127, 0, 0, 1}, port: 4000],
   check_origin: false,
   code_reloader: true,
-  debug_errors: true,
+  debug_errors: false,
   secret_key_base: "pVNLPYj/Uk5zNoGghtLEDVc4388FFv4KVwntJ7xfl5/hunMtCZ1iP8C5eWn9veuN",
   watchers: [
     # Start the esbuild watcher by calling Esbuild.install_and_run(:default, args)
