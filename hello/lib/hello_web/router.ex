@@ -1,6 +1,7 @@
 defmodule HelloWeb.Router do
   use HelloWeb, :router
 
+  # Prepares routes which render requests for a browser
   pipeline :browser do
     plug(:accepts, ["html"])
     plug(:fetch_session)
@@ -8,20 +9,76 @@ defmodule HelloWeb.Router do
     plug(:put_root_layout, {HelloWeb.LayoutView, :root})
     plug(:protect_from_forgery)
     plug(:put_secure_browser_headers)
+    plug(HelloWeb.Plugs.Locale, "en")
   end
 
+  # Prepares for routes chich produce data for an api
   pipeline :api do
     plug(:accepts, ["json"])
   end
 
+  pipeline :review_checks do
+    # Pluging the browser pipeline
+    plug(:browser)
+    # plug(:ensure_authenticated_user)
+    # plug(:ensure_user_owns_review)
+  end
+
   scope "/", HelloWeb do
+    # This function links this scope to the :browser pipelines
     pipe_through(:browser)
 
     get("/", PageController, :index)
     # The :index atom points to the controller action `index`
     get("/hello", HelloController, :index)
+
     # The :show atom points to the controller action `show`
     get("/hello/:messenger", HelloController, :show)
+
+    # RESOURCES --------
+
+    # This will create the standard matrix of HTTP verbs, paths, and controller actions
+    resources("/users", UserController)
+    # To get only a read-only resource we have to specify the actions
+    resources("/posts", PostController, only: [:index, :show])
+    # Or if we dont want a delete opcion we cant except it
+    resources("/comments", CommentController, except: [:delete])
+
+    # Nested resources representing a many_to_one relationship between post and users
+    resources "/users", UserController do
+      resources("/posts", PostController)
+    end
+  end
+
+  scope "/reviews", HelloWeb do
+    pipe_through(:review_checks)
+
+    # Reviews for common users
+    resources("/", ReviewController)
+  end
+
+  # Scopping the admin routes (The `as: :admin` gives a different helper for admin reviews and user ones)
+  scope "/admin", HelloWeb.Admin, as: :admin do
+    # This function links this scope to the :browser pipelines
+    pipe_through(:browser)
+
+    # Reviews for admins
+    resources("/images", ImageController)
+    resources("/reviews", ReviewController)
+    resources("/users", UserController)
+  end
+
+  # Scopping by versions
+  scope "/api", HelloWeb.Api, as: :api do
+    # This function links this scope to the :api pipelines
+    pipe_through(:api)
+
+    # Sopping for a version 1 of the project
+    scope "/v1", V1, as: :v1 do
+      resources("/images", ImageController)
+      resources("/reviews", ReviewController)
+      resources("/users", UserController)
+    end
   end
 
   # Other scopes may use custom stacks.
