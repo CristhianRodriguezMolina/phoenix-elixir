@@ -1,1 +1,9 @@
-This is the message: <%= @message %>
+<div class="jumbotron">
+  <p><%= handler_info @conn %></p>
+
+  <h3>Keys for the conn struc</h3>
+
+  <%= for key <- connection_keys @conn do %>
+    <%= render HelloWeb.SharedView, "key.html", key: key %>
+  <% end %>
+</div>

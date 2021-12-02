@@ -30,6 +30,7 @@ defmodule HelloWeb.Router do
 
     get("/", PageController, :index)
     get("/show", PageController, :show)
+    get("/test", PageController, :test)
 
     # The :index atom points to the controller action `index`
     get("/hello", HelloController, :index)
