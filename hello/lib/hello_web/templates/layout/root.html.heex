@@ -27,7 +27,9 @@
       </section>
     </header>
     <%# Inserting a shared view %>
-    <%= render(HelloWeb.PageView, "show.html", message: "Hello from layout!") %>
+    <%= render(HelloWeb.PageView, "show.html", message: "This is a test message from layout!") %>
+    <hr/>
+    <b><%= render(HelloWeb.PageView, "show.html", message: "Users connected") %></b>
     <%= @inner_content %>
   </body>
 </html>

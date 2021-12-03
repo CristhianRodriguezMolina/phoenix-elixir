@@ -35,6 +35,7 @@ defmodule HelloWeb.Router do
     else
       token = Phoenix.Token.sign(conn, "user socket", "test token")
       assign(conn, :user_token, token)
+      # conn
     end
   end
 
