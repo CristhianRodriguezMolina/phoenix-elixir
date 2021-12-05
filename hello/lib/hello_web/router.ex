@@ -57,6 +57,8 @@ defmodule HelloWeb.Router do
 
     # RESOURCES --------
 
+    resources("/products", ProductController)
+
     # This will create the standard matrix of HTTP verbs, paths, and controller actions
     resources("/users", UserController)
     # To get only a read-only resource we have to specify the actions

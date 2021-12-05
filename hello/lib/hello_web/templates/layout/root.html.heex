@@ -25,11 +25,7 @@
           <img src={Routes.static_path(@conn, "/images/phoenix.png")} alt="Phoenix Framework Logo"/>
         </a>
       </section>
-    </header>
-    <%# Inserting a shared view %>
-    <%= render(HelloWeb.PageView, "show.html", message: "This is a test message from layout!") %>
-    <hr/>
-    <b><%= render(HelloWeb.PageView, "show.html", message: "Users connected") %></b>
+    </header>    
     <%= @inner_content %>
   </body>
 </html>
