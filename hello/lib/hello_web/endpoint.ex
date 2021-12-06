@@ -53,7 +53,6 @@ defmodule HelloWeb.Endpoint do
 
   # Handles the session cookies and session stores
   plug(Plug.Session, @session_options)
-  plug(:introspect)
 
   # The router which matches a path to a particular controller action or plug
   plug(HelloWeb.Router)

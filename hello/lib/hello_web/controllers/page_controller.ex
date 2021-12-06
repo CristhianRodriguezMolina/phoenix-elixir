@@ -25,4 +25,11 @@ defmodule HelloWeb.PageController do
     # Responds with status and a message
     # |> send_resp(201, "")
   end
+
+  # Rendering a json message
+  def show(conn, _params) do
+    pages = [%{title: "foo"}, %{title: "bar"}]
+
+    render(conn, "show.json", pages: pages)
+  end
 end
