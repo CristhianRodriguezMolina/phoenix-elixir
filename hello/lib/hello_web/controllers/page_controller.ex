@@ -32,4 +32,8 @@ defmodule HelloWeb.PageController do
 
     render(conn, "show.json", pages: pages)
   end
+
+  def test(conn, _params) do
+    render(conn, "test.html")
+  end
 end
