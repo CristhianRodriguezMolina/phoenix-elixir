@@ -7,6 +7,14 @@ defmodule HelloWeb.HelloController do
 
   def show(conn, %{"messenger" => messenger}) do
     # Now we pass the messenger value as the third argument of render
-    render(conn, "show.html", messenger: messenger)
+    conn
+
+    # Assigning the values
+    |> assign(:messenger, messenger)
+    |> assign(:receiver, "Babushka")
+
+    # Putting a status 202 to the message
+    |> put_status(202)
+    |> render("show.html")
   end
 end
