@@ -10,6 +10,8 @@ defmodule HelloWeb.Router do
     plug(:protect_from_forgery)
     plug(:put_secure_browser_headers)
     plug(HelloWeb.Plugs.Locale, "en")
+    # plug(OurAuth)
+    plug(:put_user_token)
   end
 
   # Prepares for routes chich produce data for an api
@@ -23,6 +25,21 @@ defmodule HelloWeb.Router do
     # plug(:ensure_authenticated_user)
     # plug(:ensure_user_owns_review)
   end
+
+  # Function plugs -------------------
+
+  defp put_user_token(conn, _) do
+    if current_user = conn.assigns[:current_user] do
+      token = Phoenix.Token.sign(conn, "user socket", current_user.id)
+      assign(conn, :user_token, token)
+    else
+      token = Phoenix.Token.sign(conn, "user socket", "test token")
+      assign(conn, :user_token, token)
+      # conn
+    end
+  end
+
+  # SCOPES -------------
 
   scope "/", HelloWeb do
     # This function links this scope to the :browser pipelines
