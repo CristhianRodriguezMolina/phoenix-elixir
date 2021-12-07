@@ -1,7 +1,7 @@
 <h1>My Cart</h1>
 
 <%= if @cart.items == [] do %>
-  Your cart is empty
+  Your cart is empty  
 <% else %>
   <%= form_for @changeset, Routes.cart_path(@conn, :update), fn f -> %>
     <ul>
@@ -19,4 +19,9 @@
   <% end %>
 
   <b>Total</b>: <%= currency_to_str(ShoppingCart.total_cart_price(@cart)) %>
+
+  <%= link "complete order", to: Routes.order_path(@conn, :create), method: :post %>
 <% end %>
+
+<br/>
+<%= link "Go to catalog", to: Routes.product_path(@conn, :index) %>

@@ -125,9 +125,21 @@ defmodule Hello.ShoppingCart do
 
   """
   def update_cart(%Cart{} = cart, attrs) do
-    cart
-    |> Cart.changeset(attrs)
-    |> Repo.update()
+    changeset =
+      cart
+      |> Cart.changeset(attrs)
+      |> Ecto.Changeset.cast_assoc(:items, with: &CartItem.changeset/2)
+
+    Ecto.Multi.new()
+    |> Ecto.Multi.update(:cart, changeset)
+    |> Ecto.Multi.delete_all(:discarded_items, fn %{cart: cart} ->
+      from(i in CartItem, where: i.cart_id == ^cart.id and i.quantity == 0)
+    end)
+    |> Repo.transaction()
+    |> case do
+      {:ok, %{cart: cart}} -> {:ok, cart}
+      {:error, :cart, changeset, _changes_so_far} -> {:error, changeset}
+    end
   end
 
   @doc """
@@ -238,6 +250,11 @@ defmodule Hello.ShoppingCart do
   """
   def delete_cart_item(%CartItem{} = cart_item) do
     Repo.delete(cart_item)
+  end
+
+  def prune_cart_items(%Cart{} = cart) do
+    {_, _} = Repo.delete_all(from(i in CartItem, where: i.cart_id == ^cart.id))
+    {:ok, reload_cart(cart)}
   end
 
   @doc """

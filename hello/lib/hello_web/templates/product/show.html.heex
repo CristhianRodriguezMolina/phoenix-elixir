@@ -2,8 +2,8 @@
 
 <%= link "Add to cart",
   to: Routes.cart_item_path(@conn, :create, product_id: @product.id),
-  method: :put %>
-
+  method: :post %>
+  
 <ul>
 
   <li>

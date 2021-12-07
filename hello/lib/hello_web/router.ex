@@ -55,6 +55,7 @@ defmodule HelloWeb.Router do
 
   alias Hello.ShoppingCart
 
+  # Fetch the current cart of the user and pass it to the assigns
   def fetch_current_cart(conn, _opts) do
     if cart = ShoppingCart.get_cart_by_user_uuid(conn.assigns.current_uuid) do
       assign(conn, :cart, cart)
@@ -85,6 +86,8 @@ defmodule HelloWeb.Router do
     put("/cart", CartController, :update)
 
     # RESOURCES --------
+
+    resources("/orders", OrderController, only: [:create, :show])
 
     # Product resources
     resources("/products", ProductController)
