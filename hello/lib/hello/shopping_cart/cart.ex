@@ -3,7 +3,9 @@ defmodule Hello.ShoppingCart.Cart do
   import Ecto.Changeset
 
   schema "carts" do
-    field :user_uuid, Ecto.UUID
+    field(:user_uuid, Ecto.UUID)
+
+    has_many(:items, Hello.ShoppingCart.CartItem)
 
     timestamps()
   end

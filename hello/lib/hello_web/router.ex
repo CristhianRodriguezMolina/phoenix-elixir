@@ -12,6 +12,8 @@ defmodule HelloWeb.Router do
     plug(HelloWeb.Plugs.Locale, "en")
     # plug(OurAuth)
     plug(:put_user_token)
+    plug(:fetch_current_user)
+    plug(:fetch_current_cart)
   end
 
   # Prepares for routes chich produce data for an api
@@ -39,12 +41,36 @@ defmodule HelloWeb.Router do
     end
   end
 
+  defp fetch_current_user(conn, _) do
+    if user_uuid = get_session(conn, :current_uuid) do
+      assign(conn, :current_uuid, user_uuid)
+    else
+      new_uuid = Ecto.UUID.generate()
+
+      conn
+      |> assign(:current_uuid, new_uuid)
+      |> put_session(:current_uuid, new_uuid)
+    end
+  end
+
+  alias Hello.ShoppingCart
+
+  def fetch_current_cart(conn, _opts) do
+    if cart = ShoppingCart.get_cart_by_user_uuid(conn.assigns.current_uuid) do
+      assign(conn, :cart, cart)
+    else
+      {:ok, new_cart} = ShoppingCart.create_cart(conn.assigns.current_uuid)
+      assign(conn, :cart, new_cart)
+    end
+  end
+
   # SCOPES -------------
 
   scope "/", HelloWeb do
     # This function links this scope to the :browser pipelines
     pipe_through(:browser)
 
+    # Page routes
     get("/", PageController, :index)
     get("/show", PageController, :show)
     get("/test", PageController, :test)
@@ -55,9 +81,16 @@ defmodule HelloWeb.Router do
     # The :show atom points to the controller action `show`
     get("/hello/:messenger", HelloController, :show)
 
+    get("/cart", CartController, :show)
+    put("/cart", CartController, :update)
+
     # RESOURCES --------
 
+    # Product resources
     resources("/products", ProductController)
+
+    # Cart item resources
+    resources("/cart_items", CartItemController, only: [:create, :delete])
 
     # This will create the standard matrix of HTTP verbs, paths, and controller actions
     resources("/users", UserController)

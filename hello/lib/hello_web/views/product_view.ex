@@ -1,6 +1,8 @@
 defmodule HelloWeb.ProductView do
   use HelloWeb, :view
 
+  import Phoenix.HTML.Link
+
   def category_select(f, changeset) do
     existing_ids =
       changeset
