@@ -11,7 +11,7 @@ defmodule Hello.OrdersFixtures do
     {:ok, order} =
       attrs
       |> Enum.into(%{
-        total_price: "120.5",
+        total_price: "120.500000",
         user_uuid: "7488a646-e31f-11e4-aace-600308960662"
       })
       |> Hello.Orders.create_order()
@@ -26,7 +26,7 @@ defmodule Hello.OrdersFixtures do
     {:ok, line_item} =
       attrs
       |> Enum.into(%{
-        price: "120.5",
+        price: "120.500000",
         quantity: 42
       })
       |> Hello.Orders.create_line_item()

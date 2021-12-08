@@ -22,5 +22,6 @@ defmodule Hello.Catalog.Product do
     product
     |> cast(attrs, [:title, :description, :price, :views])
     |> validate_required([:title, :description, :price, :views])
+    |> validate_length(:title, min: 2)
   end
 end

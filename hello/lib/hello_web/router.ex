@@ -126,6 +126,13 @@ defmodule HelloWeb.Router do
     resources("/users", UserController)
   end
 
+  scope "/api", HelloWeb do
+    pipe_through(:api)
+
+    # Json routes
+    resources("/articles", ArticleController, except: [:new, :edit])
+  end
+
   # Scopping by versions
   scope "/api", HelloWeb.Api, as: :api do
     # This function links this scope to the :api pipelines

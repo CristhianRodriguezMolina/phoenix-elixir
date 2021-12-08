@@ -21,7 +21,12 @@ defmodule Hello.CatalogTest do
     end
 
     test "create_product/1 with valid data creates a product" do
-      valid_attrs = %{description: "some description", price: "120.5", title: "some title", views: 42}
+      valid_attrs = %{
+        description: "some description",
+        price: "120.5",
+        title: "some title",
+        views: 42
+      }
 
       assert {:ok, %Product{} = product} = Catalog.create_product(valid_attrs)
       assert product.description == "some description"
@@ -36,7 +41,13 @@ defmodule Hello.CatalogTest do
 
     test "update_product/2 with valid data updates the product" do
       product = product_fixture()
-      update_attrs = %{description: "some updated description", price: "456.7", title: "some updated title", views: 43}
+
+      update_attrs = %{
+        description: "some updated description",
+        price: "456.7",
+        title: "some updated title",
+        views: 43
+      }
 
       assert {:ok, %Product{} = product} = Catalog.update_product(product, update_attrs)
       assert product.description == "some updated description"

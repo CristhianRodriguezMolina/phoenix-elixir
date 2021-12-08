@@ -8,6 +8,7 @@ defmodule HelloWeb.OrderControllerTest do
   @invalid_attrs %{total_price: nil, user_uuid: nil}
 
   describe "index" do
+    @tag :not_used
     test "lists all orders", %{conn: conn} do
       conn = get(conn, Routes.order_path(conn, :index))
       assert html_response(conn, 200) =~ "Listing Orders"
@@ -15,6 +16,7 @@ defmodule HelloWeb.OrderControllerTest do
   end
 
   describe "new order" do
+    @tag :not_used
     test "renders form", %{conn: conn} do
       conn = get(conn, Routes.order_path(conn, :new))
       assert html_response(conn, 200) =~ "New Order"
@@ -29,18 +31,19 @@ defmodule HelloWeb.OrderControllerTest do
       assert redirected_to(conn) == Routes.order_path(conn, :show, id)
 
       conn = get(conn, Routes.order_path(conn, :show, id))
-      assert html_response(conn, 200) =~ "Show Order"
+      assert html_response(conn, 200) =~ "Thank you for your order!"
     end
 
     test "renders errors when data is invalid", %{conn: conn} do
       conn = post(conn, Routes.order_path(conn, :create), order: @invalid_attrs)
-      assert html_response(conn, 200) =~ "New Order"
+      assert html_response(conn, 302) =~ "redirected"
     end
   end
 
   describe "edit order" do
     setup [:create_order]
 
+    @tag :not_used
     test "renders form for editing chosen order", %{conn: conn, order: order} do
       conn = get(conn, Routes.order_path(conn, :edit, order))
       assert html_response(conn, 200) =~ "Edit Order"
@@ -50,6 +53,7 @@ defmodule HelloWeb.OrderControllerTest do
   describe "update order" do
     setup [:create_order]
 
+    @tag :not_used
     test "redirects when data is valid", %{conn: conn, order: order} do
       conn = put(conn, Routes.order_path(conn, :update, order), order: @update_attrs)
       assert redirected_to(conn) == Routes.order_path(conn, :show, order)
@@ -58,6 +62,7 @@ defmodule HelloWeb.OrderControllerTest do
       assert html_response(conn, 200)
     end
 
+    @tag :not_used
     test "renders errors when data is invalid", %{conn: conn, order: order} do
       conn = put(conn, Routes.order_path(conn, :update, order), order: @invalid_attrs)
       assert html_response(conn, 200) =~ "Edit Order"
@@ -65,15 +70,16 @@ defmodule HelloWeb.OrderControllerTest do
   end
 
   describe "delete order" do
+    @tag :not_used
     setup [:create_order]
 
     test "deletes chosen order", %{conn: conn, order: order} do
       conn = delete(conn, Routes.order_path(conn, :delete, order))
       assert redirected_to(conn) == Routes.order_path(conn, :index)
 
-      assert_error_sent 404, fn ->
+      assert_error_sent(404, fn ->
         get(conn, Routes.order_path(conn, :show, order))
-      end
+      end)
     end
   end
 
