@@ -5,7 +5,7 @@ defmodule HelloWeb.CartController do
 
   def update(conn, %{"cart" => cart_params}) do
     case ShoppingCart.update_cart(conn.assigns.cart, cart_params) do
-      {:ok, _cart} ->
+      {:ok, cart} ->
         redirect(conn, to: Routes.cart_path(conn, :show))
 
       {:error, _changeset} ->

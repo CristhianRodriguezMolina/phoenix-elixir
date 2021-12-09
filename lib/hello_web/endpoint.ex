@@ -13,7 +13,7 @@ defmodule HelloWeb.Endpoint do
   socket("/live", Phoenix.LiveView.Socket, websocket: [connect_info: [session: @session_options]])
 
   socket("/socket", HelloWeb.UserSocket,
-    websocket: [timeout: 45_000],
+    websocket: true,
     longpoll: false
   )
 
