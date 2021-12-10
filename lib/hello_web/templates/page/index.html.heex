@@ -1,7 +1,7 @@
 <p>Locale: <%= @locale %></p>
+<h1><%= gettext "Welcome to %{name}!", name: "Phoenix" %></h1>
 <%# Inserting a shared view %>
 <%= render(HelloWeb.PageView, "show.html", message: "This is a test message from layout!") %>
 <hr/>
 <div id="messages" role="log" aria-live="polite"></div>
 <input id="chat-input" type="text">
-<h6><%= gettext "Welcome to %{name}!", name: "Phoenix" %></h6>
