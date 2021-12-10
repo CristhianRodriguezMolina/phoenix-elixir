@@ -1,0 +1,9 @@
+<script>window.userToken = "<%= assigns[:user_token] %>";</script>
+<script src={Routes.static_path(@conn, "/assets/app.js")}></script>
+<div style="padding: 1em max(20px, 5%);" id="connections" />
+<main class="container">
+  <p>Locale: <%= @locale %></p>
+  <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
+  <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
+  <%= @inner_content %>
+</main>
